@@ -1,0 +1,71 @@
+GroceryItems
+	Produce:
+		> Fruits
+		> Vegetables
+		> Meat
+
+	General Merchandise
+		> ...
+
+
+class Game:
+	gamestate
+	difficulty [optional]
+
+	def new_game(self):
+		set balance
+		set grocery name
+		set starting stockpile
+	
+
+
+"""
+implement the following:
+> tutorial
+> random buying of items,
+> change item prices
+> buying supplies
+> possibly rotting of items
+> monthly paying of bills
+> random market item prices
+> law of supply and demand formulas
+"""
+
+
+GAME:
+
+name = input()
+greet(name)
+
+print(main_menu_actions)
+choice = input()
+
+if new_game:
+	if simulate:
+		randomize customer buying
+		show total items sold
+		show profit vs balance
+
+	elif restock:
+		can only restock every 7 days (weekly)
+		show current stockpile
+		access to market [optional = delivery]
+		show balance
+		buy items -> choose quantity
+		[optional = sale]
+
+	elif save and quit:
+		go back to main menu
+
+elif continue_game/resume_game: [optional]
+	load data from file [probably JSON]
+	change gamestate to running
+
+elif options: [optional]
+	change game difficulty
+	change denomination [optional] -> using decorators to convert prices
+	change starting balance
+	change rates of sales, customer buy, etc.
+
+elif quit:
+	raise SystemExit

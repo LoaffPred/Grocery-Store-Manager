@@ -1,0 +1,46 @@
+{
+    "Fruits": {
+        "Orange": {
+            "quantity": 5,
+            "price": 1
+        },
+        "Apple": {
+            "quantity": 5,
+            "price": 2
+        },
+        "Banana": {
+            "quantity": 5,
+            "price": 3
+        },
+        "Grape": {
+            "quantity": 5,
+            "price": 4
+        },
+        "Mango": {
+            "quantity": 5,
+            "price": 5
+        }
+    },
+    "Vegetables": {
+        "Cabbage": {
+            "quantity": 5,
+            "price": 1
+        },
+        "Carrot": {
+            "quantity": 5,
+            "price": 2
+        },
+        "Eggplant": {
+            "quantity": 5,
+            "price": 3
+        },
+        "Squash": {
+            "quantity": 5,
+            "price": 4
+        },
+        "Chayote": {
+            "quantity": 5,
+            "price": 5
+        }
+    }
+}
