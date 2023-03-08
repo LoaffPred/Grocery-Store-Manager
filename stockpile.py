@@ -1,4 +1,7 @@
-# TODO Rename file
+class Stockpile:
+    def __init__(self):
+        self.fruits = {"Orange": {}}
+
 
 stockpile = {
     "Fruits": {
