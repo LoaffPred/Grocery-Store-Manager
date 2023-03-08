@@ -1,8 +1,7 @@
 import display
 from player import Player
-from TESTING.prettytable_test import to_table
-import json
-from customer import Customer
+from Testing.prettytable_test import to_table
+from computer import Computer
 
 
 def alpha_only(func):
@@ -23,12 +22,21 @@ def get_username():
     return player_name
 
 
+def save_game():
+    player.save_stockpile("playerStockpile.json")
+    computer.save_stockpile("computerStockpile.json")
+
+
 def mainmenu(choice):
     if choice == "1":
         print("New Game")
+        player.get_new_stockpile("playerStockpile.json")
+        computer.get_new_stockpile("computerStockpile.json")
         player.gamestate = "Running"
     elif choice == "2":
         print("Continue")
+        player.get_stockpile("playerStockpile.json")
+        computer.get_stockpile("computerStockpile.json")
         player.gamestate = "Running"
     elif choice == "3":
         print("Options")
@@ -41,14 +49,20 @@ def mainmenu(choice):
 
 def actions(choice):
     if choice == "1":
-        print("simulate")
-        price = customer.buy(player.stockpile, 10)
-        player.balance += price
-        print("Earned = \u20B1", price)
+        print("Simulate")
+        total_amount = computer.buy(player.stockpile)
+        player.balance += total_amount
+        print("Earned = \u20B1", total_amount)
         print("Balance = \u20B1", player.balance)
     elif choice == "2":
-        print("restock")
+        print("Restock")
+    elif choice == "3":
+        print("Change price")
+        player.change_price()
     elif choice == "0":
+        print("Saving game, do not close...")
+        save_game()
+        print("Game succesfully saved...")
         player.gamestate = "MainMenu"
     else:
         print("Not a recognized action.")
@@ -65,21 +79,17 @@ def main():
             mainmenu(choice)
 
         while player.gamestate == "Running":
-            if player.newgame:
-                player.new_stockpile()
-                player.newgame = False
-            else:
-                # format stockpile to table then print
-                table = to_table(player.stockpile)
-                print(display.stockpile_header)
-                print(table)
+            # format stockpile to table then print
+            table = to_table(player.stockpile)
+            print(display.stockpile_header)
+            print(table)
 
-                print(display.actions)
-                choice = input(">>> ")
-                actions(choice)
+            print(display.actions)
+            choice = input(">>> ")
+            actions(choice)
 
 
 if __name__ == "__main__":
     player = Player()
-    customer = Customer()
+    computer = Computer()
     main()

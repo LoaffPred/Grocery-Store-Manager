@@ -21,13 +21,16 @@ from prettytable import PrettyTable
 def to_table(stockpile):
     table = PrettyTable()
 
-    table.field_names = ["Item", "Quantity"]
+    table.field_names = ["Item", "Quantity", "Price"]
     for category, item_dict in stockpile.items():
         for item, properties in item_dict.items():
-            table.add_row([item, properties["quantity"]])
+            table.add_row(
+                [item, properties["quantity"], "\u20B1 " + str(properties["price"])]
+            )
 
     table.align["Item"] = "l"
-    table.align["Quantity"] = "c"
+    table.align["Quantity"] = "l"
+    table.align["Price"] = "l"
 
     return table
 
