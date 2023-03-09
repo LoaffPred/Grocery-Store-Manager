@@ -1,15 +1,21 @@
-from owner import Owner
-from utilities import *
+from util import *
+import random
 
 
-class Player(Owner):
+class Player:
     """Represents the player, their functions, and attributes"""
 
-    def __init__(self):
-        super().__init__()  # stockpile
-        self.name = ""
-        self.balance = read_json("playerData.json")["Balance"]
-        self.level = 0
+    def __init__(self, is_new):
+        player_data = read_json("v0.2.0\\playerData.json")
+        self.name = player_data["Name"]
+        self.balance = player_data["Balance"]
+        self.stockpile = self.get_stockpile(is_new)
+
+    def get_stockpile(self, is_new):
+        if is_new:
+            return read_json("v0.2.0\\baseStockpile.json")
+        else:
+            return read_json("v0.2.0\\playerStockpile.json")
 
     def change_price(self):
         """

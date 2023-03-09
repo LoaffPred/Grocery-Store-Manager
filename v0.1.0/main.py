@@ -2,7 +2,7 @@ import display
 from player import Player
 from Testing.prettytable_test import to_table  # change
 from computer import Computer
-from utilities import *
+from util import *
 
 
 # TODO implement "Press [enter] to proceed..."

@@ -1,4 +1,5 @@
-from states.main_menu import Title
+from states.main_menu import MainMenu
+import json
 
 
 class Game:
@@ -8,6 +9,7 @@ class Game:
         self.playing = True
         self.state_stack = []
         self.load_states()
+        self.has_saved_game = False  # change to None/code for multiple saved games
 
     def game_loop(self):
         while self.playing:
@@ -21,8 +23,8 @@ class Game:
         self.state_stack[-1].render()
 
     def load_states(self):
-        self.title_screen = Title(self)
-        self.state_stack.append(self.title_screen)
+        self.main_menu = MainMenu(self)
+        self.state_stack.append(self.main_menu)
 
 
 if __name__ == "__main__":
