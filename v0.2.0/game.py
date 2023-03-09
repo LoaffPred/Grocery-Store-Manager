@@ -1,6 +1,10 @@
 from states.main_menu import MainMenu
 import json
 
+# TODO implement "Press [enter] to proceed..."
+# TODO decorator idea: yes/no confirmation for prompts/questions i.e., Are you sure? [y/n]
+# TODO decorator idea: input validator, parameters(*inputs, type?)
+
 
 class Game:
     def __init__(self) -> None:

@@ -2,6 +2,7 @@ from util import *
 from prettytable import PrettyTable
 
 
+
 class Player:
     """Represents the player, their functions, and attributes"""
 
@@ -9,6 +10,8 @@ class Player:
         player_data = read_json("v0.2.0\\playerData.json")
         self.name = player_data["Name"]
         self.balance = player_data["Balance"]
+        # decorator idea: verify if stockpile is dictionary,
+        # if filename ends with .json
         self.stockpile = self.get_stockpile(is_new)
 
     def get_stockpile(self, is_new):
