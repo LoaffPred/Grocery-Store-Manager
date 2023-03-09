@@ -1,5 +1,5 @@
 import random
-from owners import Owner
+from owner import Owner
 
 
 class Computer(Owner):
@@ -7,6 +7,8 @@ class Computer(Owner):
         super().__init__()
 
     def buy(self, stockpile):
+        # TODO customer buys depending on the price, have a comparison with SRP, lower the better
+        # TODO format summary in table
         """
         Simulates a customer choosing what to buy via random selection.
         Randomly selects categories, items from those categories,
@@ -22,6 +24,7 @@ class Computer(Owner):
 
         """
         total_amount = 0
+        print(">>> Simulation summary for the week <<<")
 
         categories = random.sample(
             list(stockpile.keys()), k=random.randint(0, len(stockpile.keys()))
@@ -39,6 +42,12 @@ class Computer(Owner):
                             0, stockpile[category][item]["quantity"]
                         )
                         stockpile[category][item]["quantity"] -= quantity
-                        total_amount += quantity * stockpile[category][item]["price"]
+                        total_item_price = quantity * stockpile[category][item]["price"]
+                        total_amount += total_item_price
+
+                        summary = "Sold {} {}, worth \u20B1 {}".format(
+                            quantity, item, total_item_price
+                        )
+                        print(summary)
 
         return total_amount

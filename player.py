@@ -1,15 +1,23 @@
-from owners import Owner
+from owner import Owner
+from utilities import *
 
 
 class Player(Owner):
+    """Represents the player, their functions, and attributes"""
+
     def __init__(self):
-        super().__init__()
-        self.balance = 1000
+        super().__init__()  # stockpile
+        self.name = ""
+        self.balance = read_json("playerData.json")["Balance"]
         self.level = 0
-        self.gamestate = "MainMenu"
 
     def change_price(self):
-        # decorator to print header
+        """
+        Accepts an input item name from the user and searches
+        the stockpile[dictionary/json] for that item.
+
+        """
+        # TODO decorator to print header
         print(">>> Changing Price <<<")
         print("Enter item name [case-sensitive]:")
         item_input = input(">>> ")
@@ -35,3 +43,7 @@ class Player(Owner):
             print(
                 "That item does not exist in your stockpile, returning to previous menu..."
             )
+
+    def save_player_data(self):
+        # TODO Loop over every data in playerData.json, then write over with actual player data
+        pass
