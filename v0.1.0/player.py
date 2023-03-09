@@ -1,5 +1,5 @@
 from owner import Owner
-from utilities import *
+from util import *
 
 
 class Player(Owner):

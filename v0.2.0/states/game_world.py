@@ -30,7 +30,7 @@ class GameWorld(State):
             print("Invalid input...")
 
     def render(self):
-        pass
+        self.player.stockpile_to_table()
 
     def simulate(self):
         pass
@@ -44,40 +44,28 @@ class GameWorld(State):
         Randomly selects categories, items from those categories,
         and how many of those items [if 0, then no transaction].
         Calculates and returns the weighted total of all the items bought.
-
-            Returns:
-                    total_amount (int): amount to be added to player's balance
-
         """
         total_amount = 0
         print(">>> Simulation summary for the week <<<")
 
-        categories = random.sample(
+        items = random.sample(
             list(self.player.stockpile.keys()),
             k=random.randint(0, len(self.player.stockpile.keys())),
         )
-        if categories:
-            for category in categories:
-                items = random.sample(
-                    list(self.player.stockpile[category].keys()),
-                    k=random.randint(0, len(self.player.stockpile[category].keys())),
+
+        for item in items:
+            try:
+                quantity = random.randint(1, self.player.stockpile[item]["quantity"])
+                self.player.stockpile[item]["quantity"] -= quantity
+                total_item_price = quantity * self.player.stockpile[item]["price"]
+                total_amount += total_item_price
+
+                summary = "Sold {} {}, worth \u20B1 {}".format(
+                    quantity, item, total_item_price
                 )
-
-                if items:
-                    for item in items:
-                        quantity = random.randint(
-                            1, self.player.stockpile[category][item]["quantity"]
-                        )
-                        self.player.stockpile[category][item]["quantity"] -= quantity
-                        total_item_price = (
-                            quantity * self.player.stockpile[category][item]["price"]
-                        )
-                        total_amount += total_item_price
-
-                        summary = "Sold {} {}, worth \u20B1 {}".format(
-                            quantity, item, total_item_price
-                        )
-                        print(summary)
+                print(summary)
+            except ValueError:
+                continue
 
         self.player.balance += total_amount
         print("Simulation done...")
