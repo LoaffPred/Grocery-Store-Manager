@@ -1,8 +1,13 @@
 import display
 from player import Player
-from TESTING.prettytable_test import to_table
-import json
-from customer import Customer
+from Testing.prettytable_test import to_table  # change
+from computer import Computer
+from utilities import *
+
+
+# TODO implement "Press [enter] to proceed..."
+# TODO decorator idea: yes/no confirmation for prompts/questions i.e., Are you sure? [y/n]
+# TODO decorator idea: input validator, parameters(*inputs, type?)
 
 
 def alpha_only(func):
@@ -23,13 +28,46 @@ def get_username():
     return player_name
 
 
+def save_game():
+    player.save_stockpile("playerStockpile.json")
+    computer.save_stockpile("computerStockpile.json")
+
+    player.save_player_data()
+    write_json("gameProperties.json", game)
+
+
+def check_saved_game():
+    if game["HasSavedGame"]:
+        print(
+            "Saved game detected, do you want to overwrite and start a new game? [y/n]"
+        )
+        a = input(">>> ").lower()
+        if a == "y":
+            game["GameState"] = "Running"
+            game["HasSavedGame"] = True
+        elif a == "n":
+            game["GameState"] = "MainMenu"
+        else:
+            print("Invalid Input...")
+    else:
+        print("No saved game...")
+
+
 def mainmenu(choice):
-    if choice == "1":
-        print("New Game")
-        player.gamestate = "Running"
+    if choice == "1":  # NEW GAME
+        if check_saved_game():
+            print(">>> New Game <<<")
+            player.name = get_username()
+            player.set_new_stockpile("baseStockpile.json", "playerStockpile.json")
+            computer.set_new_stockpile("baseStockpile.json", "computerStockpile.json")
+            game["GameState"] = "Running"
+
+            print(display.greetings.format(player.name))
     elif choice == "2":
         print("Continue")
-        player.gamestate = "Running"
+        player.get_stockpile("playerStockpile.json")
+        computer.get_stockpile("computerStockpile.json")
+        game["GameState"] = "Running"
     elif choice == "3":
         print("Options")
     elif choice == "0":
@@ -41,45 +79,45 @@ def mainmenu(choice):
 
 def actions(choice):
     if choice == "1":
-        print("simulate")
-        price = customer.buy(player.stockpile, 10)
-        player.balance += price
-        print("Earned = \u20B1", price)
+        print("Simulate")
+        total_amount = computer.buy(player.stockpile)
+        player.balance += total_amount
+        print("Earned = \u20B1", total_amount)
         print("Balance = \u20B1", player.balance)
     elif choice == "2":
-        print("restock")
+        print("Restock")
+    elif choice == "3":
+        print("Change price")
+        player.change_price()
     elif choice == "0":
-        player.gamestate = "MainMenu"
+        print("Saving game, do not close...")
+        save_game()
+        print("Game succesfully saved...")
+        game["GameState"] = "MainMenu"
     else:
         print("Not a recognized action.")
 
 
 def main():
-    player.name = get_username()
-    print(display.greetings.format(player.name))
-
     while True:  # Game loop
-        while player.gamestate == "MainMenu":
+        while game["GameState"] == "MainMenu":
             print(display.main_menu)
             choice = input(">>> ")
             mainmenu(choice)
 
-        while player.gamestate == "Running":
-            if player.newgame:
-                player.new_stockpile()
-                player.newgame = False
-            else:
-                # format stockpile to table then print
-                table = to_table(player.stockpile)
-                print(display.stockpile_header)
-                print(table)
+        while game["GameState"] == "Running":
+            # format stockpile to table then print
+            table = to_table(player.stockpile)
+            print(display.stockpile_header)
+            print(table)
 
-                print(display.actions)
-                choice = input(">>> ")
-                actions(choice)
+            print(display.actions)
+            choice = input(">>> ")
+            actions(choice)
 
 
 if __name__ == "__main__":
     player = Player()
-    customer = Customer()
+    computer = Computer()
+    game = read_json("gameProperties.json")
     main()

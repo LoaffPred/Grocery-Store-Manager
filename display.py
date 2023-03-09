@@ -7,7 +7,7 @@ main_menu = """
 [3] Options
 [0] Quit"""
 
-actions = """Actions: [1] Simulate [2] Restock [0] Save and Quit"""
+actions = """Actions: [1] Simulate [2] Restock [3] Change Prices [0] Save and Quit"""
 
 quit_game = """
 ==========>>> E X I T I N G <<<==========
