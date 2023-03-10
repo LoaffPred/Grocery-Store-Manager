@@ -2,7 +2,6 @@ from util import *
 from prettytable import PrettyTable
 
 
-
 class Player:
     """Represents the player, their functions, and attributes"""
 
@@ -20,7 +19,7 @@ class Player:
         else:
             return read_json("v0.2.0\\playerStockpile.json")
 
-    def stockpile_to_table(self):
+    def print_table(self):
         table = PrettyTable()
         table.field_names = ["Item", "Quantity", "Price"]
         for k, v in self.stockpile.items():

@@ -1,6 +1,7 @@
 from states.state import State
 from player import Player
 import random
+from states.price_change import PriceChange
 
 
 class GameWorld(State):
@@ -21,7 +22,8 @@ class GameWorld(State):
             pass  # TODO
         # Change Prices
         elif a == "3":
-            pass
+            new_state = PriceChange(self.game, self.player)
+            new_state.enter_state()
         # Exit
         elif a == "0":
             self.exit_state()
@@ -30,7 +32,7 @@ class GameWorld(State):
             print("Invalid input...")
 
     def render(self):
-        self.player.stockpile_to_table()
+        self.player.print_table()
 
     def simulate(self):
         pass
