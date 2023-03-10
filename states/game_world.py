@@ -72,4 +72,6 @@ class GameWorld(State):
         print("Simulation done...")
 
     def save_game(self):
-        pass
+        self.game.has_saved_game = True
+        self.game.player.save_player_data()
+        self.game.save_game_data()

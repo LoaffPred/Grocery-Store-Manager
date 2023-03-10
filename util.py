@@ -4,17 +4,18 @@ specifically JSON files.
 """
 
 import json
+from os import getcwd, path
 
 
 def read_json(filename):
-    with open(filename, "r") as file:
+    with open(path.join(getcwd(), filename), "r") as file:
         data = json.load(file)
 
     return data
 
 
 def write_json(filename, data):
-    with open(filename, "w") as file:
+    with open(path.join(getcwd(), filename), "w") as file:
         json.dump(data, file, indent=4)
 
 

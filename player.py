@@ -15,16 +15,19 @@ class Player:
     def get_player_data(self, is_new):
         if is_new:
             data = {"Name": "", "Balance": 1000}
-            return get_data("v0.2.0\\playerData.json", data)
+            return get_data("playerData.json", data)
         else:
-            return read_json("v0.2.0\\playerData.json")
+            return read_json("playerData.json")
 
     def get_stockpile(self, is_new):
         if is_new:
-            return get_data("v0.2.0\\playerStockpile.json", read_json("v0.2.0\\baseStockpile.json"))
+            data = read_json("baseStockpile.json")
+            write_json("playerStockpile.json", data)
+            return data
         else:
-            return read_json("v0.2.0\\playerStockpile.json")
+            return read_json("playerStockpile.json")
 
     def save_player_data(self):
         data = {"Name": self.name, "Balance": self.balance}
-        write_json("v0.2.0\\playerStockpile.json", data)
+        write_json("playerData.json", data)
+        write_json("playerStockpile.json", self.stockpile)

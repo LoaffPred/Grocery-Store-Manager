@@ -18,7 +18,9 @@ class Game:
         self.playing = True
         self.state_stack = []
         self.load_states()
-        self.has_saved_game = False  # change to None/code for multiple saved games
+        self.has_saved_game = read_json("gameData.json")[
+            "HasSavedGame"
+        ]  # change to None/code for multiple saved games
         self.player = Player(not self.has_saved_game)
 
     def game_loop(self):
@@ -47,6 +49,10 @@ class Game:
         table.align["Price"] = "l"
 
         print(table)
+
+    def save_game_data(self):
+        data = {"HasSavedGame": self.has_saved_game}
+        write_json("gameData.json", data)
 
     # def get_old_data(self, filename):
     #     return read_json(filename)
