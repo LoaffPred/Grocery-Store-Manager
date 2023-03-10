@@ -5,9 +5,8 @@ from states.price_change import PriceChange
 
 
 class GameWorld(State):
-    def __init__(self, game, is_new):
+    def __init__(self, game):
         super().__init__(game)
-        self.player = Player(is_new)
 
     def update(self):
         print("Welcome to the game world!")
@@ -22,20 +21,18 @@ class GameWorld(State):
             pass  # TODO
         # Change Prices
         elif a == "3":
-            new_state = PriceChange(self.game, self.player)
+            new_state = PriceChange(self.game)
             new_state.enter_state()
-        # Exit
+        # Save and Exit
         elif a == "0":
+            self.save_game()
             self.exit_state()
 
         else:
             print("Invalid input...")
 
     def render(self):
-        self.player.print_table()
-
-    def simulate(self):
-        pass
+        self.game.print_table(self.game.player.stockpile)
 
     def simulate(self):
         # TODO customer buys depending on the price, have a comparison with SRP, lower the better
@@ -51,15 +48,17 @@ class GameWorld(State):
         print(">>> Simulation summary for the week <<<")
 
         items = random.sample(
-            list(self.player.stockpile.keys()),
-            k=random.randint(0, len(self.player.stockpile.keys())),
+            list(self.game.player.stockpile.keys()),
+            k=random.randint(0, len(self.game.player.stockpile.keys())),
         )
 
         for item in items:
             try:
-                quantity = random.randint(1, self.player.stockpile[item]["quantity"])
-                self.player.stockpile[item]["quantity"] -= quantity
-                total_item_price = quantity * self.player.stockpile[item]["price"]
+                quantity = random.randint(
+                    1, self.game.player.stockpile[item]["quantity"]
+                )
+                self.game.player.stockpile[item]["quantity"] -= quantity
+                total_item_price = quantity * self.game.player.stockpile[item]["price"]
                 total_amount += total_item_price
 
                 summary = "Sold {} {}, worth \u20B1 {}".format(
@@ -69,5 +68,8 @@ class GameWorld(State):
             except ValueError:
                 continue
 
-        self.player.balance += total_amount
+        self.game.player.balance += total_amount
         print("Simulation done...")
+
+    def save_game(self):
+        pass

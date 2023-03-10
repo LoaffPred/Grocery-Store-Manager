@@ -8,16 +8,18 @@ class MainMenu(State):
 
     def update(self):
         print("This is the title screen.")
-        print("[1] Play Game\n[3] Options\n[0] Exit")
+        print("[1] Play Game\n[2] Options\n[0] Exit")
         a = input(">>> ")
+        # Play Game
         if a == "1":
             if self.game.has_saved_game:
-                self.check_saved_game()
+                self.override_game()
             else:
-                new_state = GameWorld(self.game, True)
-                new_state.enter_state()
+                self.new_game()
+        # Options [optional]
         elif a == "2":
             pass  # TODO
+        # Exit
         elif a == "0":
             self.game.playing = False
             self.game.running = False
@@ -27,19 +29,33 @@ class MainMenu(State):
     def render(self):
         pass
 
-    def check_saved_game(self):
+    def get_username(self):
+        # TODO decorator: input validation
+        print("Enter your name:")
+        a = input(">>> ")
+        return a
+
+    def override_game(self):
         print("Saved game detected. Would you like to start a new game?")
         print(
             "[1] Override and Start New Game\n[2] Resume Game\n[0] Cancel and Go Back"
         )
         a = input(">>> ")
+        # Override
         if a == "1":
-            new_state = GameWorld(self.game, True)
-            new_state.enter_state()
+            self.new_game()
+        # Resume
         elif a == "2":
-            new_state = GameWorld(self.game, False)
+            print("Welcome back {}!".format(self.game.player.name))
+            new_state = GameWorld(self.game)
             new_state.enter_state()
+        # Cancel and Go Back
         elif a == "0":
             return
         else:
             print("Invalid input...")
+
+    def new_game(self):
+        self.game.player.name = self.get_username()
+        new_state = GameWorld(self.game)
+        new_state.enter_state()
