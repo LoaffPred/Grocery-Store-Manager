@@ -42,8 +42,23 @@ class Game:
 
     def get_basetable(self):
         table = BeautifulTable()
-        table.rows.append(["Heading 1", "Heading 2"])
-        table.rows.append(["Subtable 1", "Subtable 2"])
+        table.columns.header = ["Player", "Market"]
+        table.rows.append(["Player Stockpile", "Market Stockpile"])
+
+        return table
+
+    def to_table(self, stockpile):
+        table = BeautifulTable()
+        table.columns.header = ["Item", "Quantity", "Price"]
+        for k, v in stockpile.items():
+            table.rows.append([k, v["quantity"], "\u20B1 " + str(v["price"])])
+
+        table.border.left = ""
+        table.border.right = ""
+        table.border.top = ""
+        table.border.bottom = ""
+        table.rows.separator = ""
+        table.columns.alignment["Price"] = BeautifulTable.ALIGN_LEFT
 
         return table
 

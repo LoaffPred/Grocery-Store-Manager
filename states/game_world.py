@@ -32,7 +32,9 @@ class GameWorld(State):
             print("Invalid input...")
 
     def render(self):
-        print(self.game.get_basetable())
+        table = self.add_playertable()
+        new_table = table.columns[:1]
+        print(new_table)
 
     def simulate(self):
         self.game.computer.buy()
@@ -41,3 +43,11 @@ class GameWorld(State):
         self.game.has_saved_game = True
         self.game.player.save_player_data()
         self.game.save_game_data()
+
+    def add_playertable(self):
+        basetable = self.game.get_basetable()
+        table = self.game.to_table(self.game.player.stockpile)
+
+        basetable[0][0] = table
+
+        return basetable
