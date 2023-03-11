@@ -28,7 +28,6 @@ class Game:
     def game_loop(self):
         while self.playing:
             self.update()
-            self.render()
 
     def update(self):
         self.state_stack[-1].update()

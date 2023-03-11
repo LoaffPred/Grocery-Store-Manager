@@ -8,6 +8,7 @@ class Market(State):
         self.stockpile = read_json("baseStockpile.json")
 
     def update(self):
+        self.render()
         print("[1] Buy From Market\n[0] Go Back")
         a = input(">>> ")
         if a == "1":
@@ -53,3 +54,9 @@ class Market(State):
                     self.stockpile[a]["quantity"] -= b
                     self.game.player.balance -= total_amount
                     print("Purchase successful.")
+
+    def inflation(self):
+        # randomly choose an item to inflate
+        # randomly choose whether to inflate or deflate
+        # randomly choose by how much 1%, 2%, or 3%
+        pass

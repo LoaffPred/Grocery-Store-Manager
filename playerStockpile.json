@@ -1,14 +1,14 @@
 {
     "Orange": {
-        "quantity": 25,
+        "quantity": 1,
         "price": 57.5
     },
     "Apple": {
-        "quantity": 0,
+        "quantity": 1,
         "price": 44
     },
     "Banana": {
-        "quantity": 2,
+        "quantity": 1,
         "price": 175
     },
     "Grape": {
@@ -16,27 +16,27 @@
         "price": 395
     },
     "Mango": {
-        "quantity": 1,
+        "quantity": 5,
         "price": 79.5
     },
     "Cabbage": {
-        "quantity": 2,
+        "quantity": 1,
         "price": 148
     },
     "Carrot": {
-        "quantity": 0,
+        "quantity": 5,
         "price": 95
     },
     "Eggplant": {
-        "quantity": 1,
+        "quantity": 5,
         "price": 109
     },
     "Broccoli": {
-        "quantity": 6,
+        "quantity": 1,
         "price": 145
     },
     "Sayote": {
-        "quantity": 0,
+        "quantity": 5,
         "price": 49
     }
 }

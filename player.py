@@ -11,11 +11,11 @@ class Player:
         # decorator idea: verify if stockpile is dictionary,
         # if filename ends with .json
         self.stockpile = self.get_stockpile(is_new)
-
+        self.days_played = player_data["DaysPlayed"]
 
     def get_player_data(self, is_new):
         if is_new:
-            data = {"Name": "", "Balance": 1000}
+            data = {"Name": "", "Balance": 1000, "DaysPlayed": 0}
             return get_data("playerData.json", data)
         else:
             return read_json("playerData.json")
@@ -29,6 +29,10 @@ class Player:
             return read_json("playerStockpile.json")
 
     def save_player_data(self):
-        data = {"Name": self.name, "Balance": self.balance}
+        data = {
+            "Name": self.name,
+            "Balance": self.balance,
+            "DaysPlayed": self.days_played,
+        }
         write_json("playerData.json", data)
         write_json("playerStockpile.json", self.stockpile)

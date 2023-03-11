@@ -2,11 +2,12 @@ implement the following:
     > tutorial
     > random buying of items /
     > change item prices /
-    > buying supplies
+    > buying supplies /
     > possibly rotting of items
-    > monthly paying of bills
+    > monthly paying of bills /
     > random market item prices
     > law of supply and demand formulas
+    > SAVE GAME
 
 Stuff:
     > define table_interface at game !!!!!!!!!!
@@ -19,3 +20,5 @@ Stuff:
 
         def 
         if len(save_file) == 0:
+
+    > put everything in tables
