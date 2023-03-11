@@ -1,10 +1,10 @@
 from states.main_menu import MainMenu
 import json  # load game properties
-from prettytable import PrettyTable
 from os import path, getcwd
 from util import *
 from player import Player
 from computer import Computer
+from beautifultable import BeautifulTable
 
 
 # TODO implement "Press [enter] to proceed..."
@@ -40,15 +40,10 @@ class Game:
         self.main_menu = MainMenu(self)
         self.state_stack.append(self.main_menu)
 
-    def get_table(self, stockpile):
-        table = PrettyTable()
-        table.field_names = ["Item", "Quantity", "Price"]
-        for k, v in stockpile.items():
-            table.add_row([k, v["quantity"], "\u20B1" + str(v["price"])])
-
-        table.align["Item"] = "l"
-        table.align["Quantity"] = "c"
-        table.align["Price"] = "l"
+    def get_basetable(self):
+        table = BeautifulTable()
+        table.rows.append(["Heading 1", "Heading 2"])
+        table.rows.append(["Subtable 1", "Subtable 2"])
 
         return table
 

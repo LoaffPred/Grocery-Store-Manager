@@ -10,7 +10,7 @@ class PriceChange(State):
 
     def update(self):
         print("Price Change Menu")
-        print(self.game.get_table(self.game.player.stockpile))
+        # print(self.game.get_table???????(self.game.player.stockpile))
         print("[1] Change Item Price\n[0] Go Back")
         a = input(">>> ")
         if a == "1":

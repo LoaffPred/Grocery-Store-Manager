@@ -1,6 +1,4 @@
 from states.state import State
-from player import Player
-import random
 from states.price_change import PriceChange
 from states.market import Market
 
@@ -34,7 +32,7 @@ class GameWorld(State):
             print("Invalid input...")
 
     def render(self):
-        print(self.game.get_table(self.game.player.stockpile))
+        print(self.game.get_basetable())
 
     def simulate(self):
         self.game.computer.buy()

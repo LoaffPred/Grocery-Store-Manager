@@ -12,6 +12,10 @@ class Player:
         # if filename ends with .json
         self.stockpile = self.get_stockpile(is_new)
 
+    def add_playertable(self):
+        basetable = self.game.get_basetable()
+        
+
     def get_player_data(self, is_new):
         if is_new:
             data = {"Name": "", "Balance": 1000}
