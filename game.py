@@ -44,6 +44,7 @@ class Game:
         table = BeautifulTable()
         table.columns.header = ["Player", "Market"]
         table.rows.append(["Player Stockpile", "Market Stockpile"])
+        table.set_style(BeautifulTable.STYLE_BOX)
 
         return table
 
@@ -53,6 +54,7 @@ class Game:
         for k, v in stockpile.items():
             table.rows.append([k, v["quantity"], "\u20B1 " + str(v["price"])])
 
+        table.set_style(BeautifulTable.STYLE_BOX)
         table.border.left = ""
         table.border.right = ""
         table.border.top = ""

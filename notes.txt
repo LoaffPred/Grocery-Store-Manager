@@ -7,3 +7,15 @@ implement the following:
     > monthly paying of bills
     > random market item prices
     > law of supply and demand formulas
+
+Stuff:
+    > define table_interface at game !!!!!!!!!!
+    > change has_saved_game to:
+        save_file = {
+            name : data,
+            name : data,
+            name : data
+        }
+
+        def 
+        if len(save_file) == 0:

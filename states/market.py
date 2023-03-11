@@ -19,21 +19,18 @@ class Market(State):
 
     def render(self):
         print("Welcome to the Market!")
-        player_table = self.add_market_table()
-        print(player_table)
+        table = self.add_market_table()
+        print(table)
 
     def add_market_table(self):
-        # player_table = self.game.get_table???????(self.game.player.stockpile)
-        column1 = [key for key in self.stockpile]
-        column2 = [value["quantity"] for _, value in self.stockpile.items()]
+        basetable = self.game.get_basetable()
+        market_table = self.game.to_table(self.stockpile)
+        playertable = self.game.to_table(self.game.player.stockpile)
 
-        player_table.add_column("", ["" for _ in enumerate(self.stockpile)])
-        player_table.add_column("Item", column1)
-        player_table.add_column("Quantity", column2)
+        basetable[0][0] = playertable
+        basetable[0][1] = market_table
 
-        player_table.add_row(["", "", "", "", "", ""])
-
-        return player_table
+        return basetable
 
     def sell(self):
         print("Enter produce name to buy: [Case-sensitive]")
