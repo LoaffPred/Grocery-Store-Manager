@@ -1,9 +1,10 @@
 from states.main_menu import MainMenu
-import json  # loaf game properties
+import json  # load game properties
 from prettytable import PrettyTable
-from os import path
+from os import path, getcwd
 from util import *
 from player import Player
+from computer import Computer
 
 
 # TODO implement "Press [enter] to proceed..."
@@ -22,6 +23,7 @@ class Game:
             "HasSavedGame"
         ]  # change to None/code for multiple saved games
         self.player = Player(not self.has_saved_game)
+        self.computer = Computer(self)
 
     def game_loop(self):
         while self.playing:
@@ -38,7 +40,7 @@ class Game:
         self.main_menu = MainMenu(self)
         self.state_stack.append(self.main_menu)
 
-    def print_table(self, stockpile):
+    def get_table(self, stockpile):
         table = PrettyTable()
         table.field_names = ["Item", "Quantity", "Price"]
         for k, v in stockpile.items():
@@ -48,20 +50,25 @@ class Game:
         table.align["Quantity"] = "c"
         table.align["Price"] = "l"
 
-        print(table)
+        return table
 
     def save_game_data(self):
         data = {"HasSavedGame": self.has_saved_game}
         write_json("gameData.json", data)
 
-    # def get_old_data(self, filename):
-    #     return read_json(filename)
 
-    # def create_new_data(self, filename, data):
-    #     write_json(filename, data)
+def setup():
+    if not path.exists(path.join(getcwd(), "baseStockpile.json")):
+        print("[baseStockpile.json] file not found. Can't start game.")
+        raise SystemExit()
+
+    if not path.exists(path.join(getcwd(), "gameData.json")):
+        data = {"HasSavedGame": False}
+        write_json(path.join(getcwd(), "gameData.json"), data)
 
 
 if __name__ == "__main__":
+    setup()
     game = Game()
     while game.running:
         game.game_loop()

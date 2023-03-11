@@ -36,19 +36,19 @@ class MainMenu(State):
         return a
 
     def override_game(self):
-        print("Saved game detected. Would you like to start a new game?")
+        print("Saved game detected.")
         print(
-            "[1] Override and Start New Game\n[2] Resume Game\n[0] Cancel and Go Back"
+            "[1] Resume Game\n[2] Override and Start New Game\n[0] Cancel and Go Back"
         )
         a = input(">>> ")
-        # Override
-        if a == "1":
-            self.new_game()
         # Resume
-        elif a == "2":
+        if a == "1":
             print("Welcome back {}!".format(self.game.player.name))
             new_state = GameWorld(self.game)
             new_state.enter_state()
+        # Override
+        elif a == "2":
+            self.new_game()
         # Cancel and Go Back
         elif a == "0":
             return

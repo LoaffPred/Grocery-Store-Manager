@@ -2,6 +2,7 @@ from states.state import State
 from player import Player
 import random
 from states.price_change import PriceChange
+from states.market import Market
 
 
 class GameWorld(State):
@@ -18,7 +19,8 @@ class GameWorld(State):
             self.simulate()
         # Restock
         elif a == "2":
-            pass  # TODO
+            new_state = Market(self.game)
+            new_state.enter_state()
         # Change Prices
         elif a == "3":
             new_state = PriceChange(self.game)
@@ -32,44 +34,10 @@ class GameWorld(State):
             print("Invalid input...")
 
     def render(self):
-        self.game.print_table(self.game.player.stockpile)
+        print(self.game.get_table(self.game.player.stockpile))
 
     def simulate(self):
-        # TODO customer buys depending on the price, have a comparison with SRP, lower the better
-        # TODO format summary in table
-        # TODO clean up
-        """
-        Simulates a customer choosing what to buy via random selection.
-        Randomly selects categories, items from those categories,
-        and how many of those items [if 0, then no transaction].
-        Calculates and returns the weighted total of all the items bought.
-        """
-        total_amount = 0
-        print(">>> Simulation summary for the week <<<")
-
-        items = random.sample(
-            list(self.game.player.stockpile.keys()),
-            k=random.randint(0, len(self.game.player.stockpile.keys())),
-        )
-
-        for item in items:
-            try:
-                quantity = random.randint(
-                    1, self.game.player.stockpile[item]["quantity"]
-                )
-                self.game.player.stockpile[item]["quantity"] -= quantity
-                total_item_price = quantity * self.game.player.stockpile[item]["price"]
-                total_amount += total_item_price
-
-                summary = "Sold {} {}, worth \u20B1 {}".format(
-                    quantity, item, total_item_price
-                )
-                print(summary)
-            except ValueError:
-                continue
-
-        self.game.player.balance += total_amount
-        print("Simulation done...")
+        self.game.computer.buy()
 
     def save_game(self):
         self.game.has_saved_game = True
