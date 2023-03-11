@@ -3,7 +3,6 @@ import json  # load game properties
 from os import path, getcwd
 from util import *
 from player import Player
-from computer import Computer
 from beautifultable import BeautifulTable
 
 
@@ -23,7 +22,6 @@ class Game:
             "HasSavedGame"
         ]  # change to None/code for multiple saved games
         self.player = Player(not self.has_saved_game)
-        self.computer = Computer(self)
 
     def game_loop(self):
         while self.playing:
