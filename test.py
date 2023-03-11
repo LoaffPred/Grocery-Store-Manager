@@ -1,1 +1,5 @@
-print(5 % 1 + 1)
+from pyfiglet import Figlet
+
+f = Figlet() # slant, small, smslant
+
+print(f.renderText("Test String"))

@@ -4,6 +4,7 @@ from os import path, getcwd
 from util import *
 from player import Player
 from beautifultable import BeautifulTable
+from pyfiglet import Figlet
 
 
 # TODO implement "Press [enter] to proceed..."
@@ -13,7 +14,6 @@ from beautifultable import BeautifulTable
 
 class Game:
     def __init__(self):
-        # game settings
         self.running = True
         self.playing = True
         self.state_stack = []
@@ -26,9 +26,6 @@ class Game:
 
     def update(self):
         self.state_stack[-1].update()
-
-    def render(self):
-        self.state_stack[-1].render()
 
     def load_states(self):
         self.main_menu = MainMenu(self)
@@ -70,6 +67,9 @@ def setup():
 
 
 if __name__ == "__main__":
+    standard = Figlet()
+    print(standard.renderText("Grocery Manager Simulator"))
+    input("Press [enter] to proceed...")
     # setup()
     game = Game()
     while game.running:

@@ -3,11 +3,12 @@ implement the following:
     > random buying of items /
     > change item prices /
     > buying supplies /
-    > possibly rotting of items
+    > possibly rotting of items x
     > monthly paying of bills /
-    > random market item prices
+    > random market item prices /
     > law of supply and demand formulas
-    > SAVE GAME
+    > random market supply
+    > SAVE GAME /
 
 Stuff:
     > define table_interface at game !!!!!!!!!!

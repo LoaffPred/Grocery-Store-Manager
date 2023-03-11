@@ -8,12 +8,14 @@ class MainMenu(State):
         super().__init__(game)
 
     def update(self):
-        print("This is the title screen.")
+        
         print("[1] New Game\n[2] Load Save\n[3] Delete Save\n[0] Exit")
         a = input(">>> ")
         # Play Game
         if a == "1":
             username = self.get_username()
+            if username == "cancel":
+                return
             new_state = GameWorld(self.game, username, self.new_game_setup())
             new_state.enter_state()
         # Load Save
@@ -49,12 +51,9 @@ class MainMenu(State):
         else:
             print("Invalid input...")
 
-    def render(self):
-        pass
-
     def get_username(self):
         # TODO decorator: input validation
-        print("Enter your name:")
+        print("Enter your name, enter [cancel] to go back:")
         a = input(">>> ")
         return a
 

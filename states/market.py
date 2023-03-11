@@ -8,6 +8,7 @@ class Market(State):
         super().__init__(game)
         self.stockpile = read_json("baseStockpile.json")
         self.inflation()
+        self.random_supply()
 
     def update(self):
         self.render()
@@ -59,10 +60,7 @@ class Market(State):
                     print("Purchase successful.")
 
     def inflation(self):
-        # randomly choose an item to inflate
-        # randomly choose whether to inflate or deflate
-        # randomly choose by how much 1%, 2%, or 3%
-        items = random.sample(list(self.stockpile.keys()), k=random.randint(3, 5))
+        items = random.sample(list(self.stockpile.keys()), k=random.randint(3, 7))
         for item in items:
             option = random.choice(["inflate", "deflate"])
             chance = random.uniform(1, 3)
@@ -75,3 +73,7 @@ class Market(State):
                 self.stockpile[item]["price"] = round(
                     self.stockpile[item]["price"] / percentage
                 )
+
+    def random_supply(self):
+        for item in self.stockpile:
+            self.stockpile[item]["quantity"] = random.randint(0, 20)

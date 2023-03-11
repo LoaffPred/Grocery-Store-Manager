@@ -1,11 +1,11 @@
 {
-    "PREEEEEEEEEEEEED": {
-        "Balance": 12408.0,
+    "Pred": {
+        "Balance": 1000000009917.0,
         "DaysPlayed": 28,
         "Stockpile": {
             "Orange": {
                 "quantity": 0,
-                "price": 57.5
+                "price": 100000000000.0
             },
             "Apple": {
                 "quantity": 0,
@@ -16,15 +16,15 @@
                 "price": 175
             },
             "Grape": {
-                "quantity": 0,
+                "quantity": 4,
                 "price": 395
             },
             "Mango": {
-                "quantity": 0,
+                "quantity": 4,
                 "price": 79.5
             },
             "Cabbage": {
-                "quantity": 4,
+                "quantity": 0,
                 "price": 148
             },
             "Carrot": {
@@ -36,7 +36,7 @@
                 "price": 109
             },
             "Broccoli": {
-                "quantity": 0,
+                "quantity": 4,
                 "price": 145
             },
             "Sayote": {
