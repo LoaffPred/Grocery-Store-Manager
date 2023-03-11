@@ -4,35 +4,25 @@ from util import *
 class Player:
     """Represents the player, their functions, and attributes"""
 
-    def __init__(self, is_new):
-        player_data = self.get_player_data(is_new)
-        self.name = player_data["Name"]
-        self.balance = player_data["Balance"]
+    def __init__(self):
+        self.name = ""
+        self.balance = 10000
         # decorator idea: verify if stockpile is dictionary,
         # if filename ends with .json
-        self.stockpile = self.get_stockpile(is_new)
-        self.days_played = player_data["DaysPlayed"]
+        self.stockpile = {}
+        self.days_played = 0
 
-    def get_player_data(self, is_new):
-        if is_new:
-            data = {"Name": "", "Balance": 1000, "DaysPlayed": 0}
-            return get_data("playerData.json", data)
-        else:
-            return read_json("playerData.json")
-
-    def get_stockpile(self, is_new):
-        if is_new:
-            data = read_json("baseStockpile.json")
-            write_json("playerStockpile.json", data)
-            return data
-        else:
-            return read_json("playerStockpile.json")
+    def load_player_data(self, data):
+        self.balance = data["Balance"]
+        self.days_played = data["DaysPlayed"]
+        self.stockpile = data["Stockpile"]
 
     def save_player_data(self):
         data = {
-            "Name": self.name,
             "Balance": self.balance,
             "DaysPlayed": self.days_played,
+            "Stockpile": self.stockpile,
         }
-        write_json("playerData.json", data)
-        write_json("playerStockpile.json", self.stockpile)
+        savefile = read_json("savefiles.json")
+        savefile[self.name] = data
+        write_json("savefiles.json", savefile)

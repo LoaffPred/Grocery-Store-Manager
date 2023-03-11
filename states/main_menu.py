@@ -1,5 +1,6 @@
 from states.state import State
 from states.game_world import GameWorld
+from util import *
 
 
 class MainMenu(State):
@@ -8,17 +9,39 @@ class MainMenu(State):
 
     def update(self):
         print("This is the title screen.")
-        print("[1] Play Game\n[2] Options\n[0] Exit")
+        print("[1] New Game\n[2] Load Save\n[3] Delete Save\n[0] Exit")
         a = input(">>> ")
         # Play Game
         if a == "1":
-            if self.game.has_saved_game:
-                self.override_game()
-            else:
-                self.new_game()
-        # Options [optional]
+            username = self.get_username()
+            new_state = GameWorld(self.game, username, self.new_game_setup())
+            new_state.enter_state()
+        # Load Save
         elif a == "2":
-            pass  # TODO
+            print("Saved Games:")
+            for save in read_json("savefiles.json").keys():
+                print(">", save)
+            print("Enter name of save to load: [Case-sensitive]")
+            name = input(">>> ")
+            try:
+                player_data = read_json("savefiles.json")[name]
+                new_state = GameWorld(self.game, name, player_data)
+                new_state.enter_state()
+            except:
+                print("That save file does not exist...")
+        elif a == "3":
+            savefiles = read_json("savefiles.json")
+            print("Saved Games:")
+            for save in savefiles.keys():
+                print(">", save)
+            print("Enter name of save to delete: [Case-sensitive]")
+            save = input(">>> ")
+            try:
+                savefiles.pop(save)
+                write_json("savefiles.json", savefiles)
+                print("Save successfuly deleted.")
+            except:
+                print("That save file does not exist...")
         # Exit
         elif a == "0":
             self.game.playing = False
@@ -35,27 +58,11 @@ class MainMenu(State):
         a = input(">>> ")
         return a
 
-    def override_game(self):
-        print("Saved game detected.")
-        print(
-            "[1] Resume Game\n[2] Override and Start New Game\n[0] Cancel and Go Back"
-        )
-        a = input(">>> ")
-        # Resume
-        if a == "1":
-            print("Welcome back {}!".format(self.game.player.name))
-            new_state = GameWorld(self.game)
-            new_state.enter_state()
-        # Override
-        elif a == "2":
-            self.new_game()
-        # Cancel and Go Back
-        elif a == "0":
-            return
-        else:
-            print("Invalid input...")
+    def new_game_setup(self):
+        balance = 10000
+        days_played = 0
+        stockpile = read_json("baseStockpile.json")
 
-    def new_game(self):
-        self.game.player.name = self.get_username()
-        new_state = GameWorld(self.game)
-        new_state.enter_state()
+        data = {"Balance": balance, "DaysPlayed": days_played, "Stockpile": stockpile}
+
+        return data

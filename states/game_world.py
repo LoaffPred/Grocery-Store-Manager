@@ -6,8 +6,10 @@ import random
 
 
 class GameWorld(State):
-    def __init__(self, game):
+    def __init__(self, game, name, data):
         super().__init__(game)
+        self.game.player.name = name
+        self.game.player.load_player_data(data)
 
     def update(self):
         print("Welcome to the game world!")
@@ -32,7 +34,7 @@ class GameWorld(State):
             new_state.enter_state()
         # Save and Exit
         elif a == "0":
-            self.save_game()
+            self.game.player.save_player_data()
             self.exit_state()
 
         else:
@@ -47,11 +49,6 @@ class GameWorld(State):
 
     def simulate(self):
         self.buy()
-
-    def save_game(self):
-        self.game.has_saved_game = True
-        self.game.player.save_player_data()
-        self.game.save_game_data()
 
     def add_playertable(self):
         basetable = self.game.get_basetable()

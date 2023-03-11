@@ -18,10 +18,7 @@ class Game:
         self.playing = True
         self.state_stack = []
         self.load_states()
-        self.has_saved_game = read_json("gameData.json")[
-            "HasSavedGame"
-        ]  # change to None/code for multiple saved games
-        self.player = Player(not self.has_saved_game)
+        self.player = Player()
 
     def game_loop(self):
         while self.playing:
@@ -61,10 +58,6 @@ class Game:
 
         return table
 
-    def save_game_data(self):
-        data = {"HasSavedGame": self.has_saved_game}
-        write_json("gameData.json", data)
-
 
 def setup():
     if not path.exists(path.join(getcwd(), "baseStockpile.json")):
@@ -77,7 +70,7 @@ def setup():
 
 
 if __name__ == "__main__":
-    setup()
+    # setup()
     game = Game()
     while game.running:
         game.game_loop()
