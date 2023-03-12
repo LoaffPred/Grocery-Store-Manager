@@ -1,6 +1,6 @@
 """Decorators
 
-    Ideally to be used with if-elif-else statements
+    For use within the project [Grocery-Store-Manager]
 
 
     decorators:

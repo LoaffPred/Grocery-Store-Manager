@@ -14,6 +14,7 @@ class Game:
     def __init__(self):
         self.running = True
         self.playing = True
+        self.interface = self.setup_interface()
         self.state_stack = []
         self.load_states()
         self.player = Player()
@@ -22,35 +23,43 @@ class Game:
         while self.playing:
             self.update()
 
-    def update(self):
+    def update(self):2
+    
         self.state_stack[-1].update()
+
+    def print_interface(self):
+        print(self.interface)
 
     def load_states(self):
         self.main_menu = MainMenu(self)
         self.state_stack.append(self.main_menu)
 
-    def get_basetable(self):
+    def setup_interface(self):
         table = BeautifulTable()
-        table.columns.header = ["Player", "Market"]
-        table.rows.append(["Player Stockpile", "Market Stockpile"])
         table.set_style(BeautifulTable.STYLE_BOX)
+        table.rows.append(["SCREEN"])
+        table.rows.append(["OPTIONS"])
 
         return table
 
-    def to_table(self, stockpile):
-        table = BeautifulTable()
-        table.columns.header = ["Item", "Quantity", "Price"]
-        for k, v in stockpile.items():
-            table.rows.append([k, v["quantity"], "\u20B1 " + str(v["price"])])
+    def update_interface(self, subtable, **kwargs):
+        self.interface.rows[0][0] = subtable
+        if kwargs:
+            subsubtable = BeautifulTable()
+            subsubtable = self.format_table(subsubtable)
+            subsubtable.columns.header = ["ACTIONS"]
+            subsubtable.rows.append([kwargs["options"]])
+            subsubtable.columns.header.alignment = BeautifulTable.ALIGN_CENTER
+            subsubtable.columns.alignment = BeautifulTable.ALIGN_LEFT
+            self.interface.rows[1][0] = subsubtable
 
+    def format_table(self, table):
         table.set_style(BeautifulTable.STYLE_BOX)
         table.border.left = ""
         table.border.right = ""
         table.border.top = ""
         table.border.bottom = ""
         table.rows.separator = ""
-        table.columns.alignment["Price"] = BeautifulTable.ALIGN_LEFT
-
         return table
 
     @input_validator("1", "2", "3", "4", "5", "6", "0", "cancel")
@@ -58,6 +67,7 @@ class Game:
         return input(">>> ")
 
 
+########################################
 def setup():
     base_stockpile = {
         "Orange": {"quantity": 10, "price": 57.50},

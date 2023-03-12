@@ -4,6 +4,8 @@ from states.market import Market
 from states.monthlydues import MonthlyDue
 import random
 from decorators import *
+from beautifultable import BeautifulTable
+from util import *
 
 
 class GameWorld(State):
@@ -11,11 +13,15 @@ class GameWorld(State):
         super().__init__(game)
         self.game.player.name = name
         self.game.player.load_player_data(data)
+        self.market_stockpile = read_json("baseStockpile.json")
+        self.worldtable = self.create_worldtable()
+        self.actions = "[1] Simulate\n[2] Restock\n[3] Change Prices\n[0] Save and Exit"
 
     def update(self):
         print("Welcome to the game world!")
-        self.render()
-        print("[1] Simulate\n[2] Restock\n[3] Change Prices\n[0] Save and Exit")
+        self.update_worldtable()
+        self.game.update_interface(self.worldtable, options=self.actions)
+        self.game.print_interface()
         choice = self.game.get_input()
         # ======================== Simulate ======================== #
         if choice == "1":
@@ -27,7 +33,7 @@ class GameWorld(State):
                 new_state.enter_state()
         # ========================  Restock ======================== #
         elif choice == "2":
-            new_state = Market(self.game)
+            new_state = Market(self, self.game, self.worldtable)
             new_state.enter_state()
         # ======================== Change Prices ======================== #
         elif choice == "3":
@@ -35,6 +41,7 @@ class GameWorld(State):
             new_state.enter_state()
         # ======================== Save and Exit ======================== #
         elif choice == "0":
+            # self.game.interface.rows[0][0] = ""
             self.game.player.save_player_data()
             self.exit_state()
 
@@ -45,13 +52,32 @@ class GameWorld(State):
         print(new_table)
         print("Your balance: \u20B1", self.game.player.balance)
 
-    def add_playertable(self):
-        basetable = self.game.get_basetable()
-        table = self.game.to_table(self.game.player.stockpile)
+    ######################################
 
-        basetable.rows[0][0] = table
+    def create_worldtable(self):
+        table = BeautifulTable()
+        table.columns.header = ["PLAYER"]
+        table.rows.append(["Player Stockpile"])
+        table = self.game.format_table(table)
 
-        return basetable
+        return table
+
+    def create_playertable(self, stockpile):
+        table = BeautifulTable()
+        table.columns.header = ["Item", "Quantity", "Price"]
+        for k, v in stockpile.items():
+            table.rows.append([k, v["quantity"], "\u20B1 " + str(v["price"])])
+
+        table = self.game.format_table(table)
+        table.columns.header.alignment = BeautifulTable.ALIGN_CENTER
+        table.columns.alignment["Price"] = BeautifulTable.ALIGN_LEFT
+
+        return table
+
+    def update_worldtable(self):
+        self.worldtable.rows[0][0] = self.create_playertable(self.game.player.stockpile)
+
+    #######################################
 
     def buy(self):
         # TODO customer buys depending on the price, have a comparison with SRP, lower the better
@@ -72,19 +98,34 @@ class GameWorld(State):
         )
 
         for item in items:
-            try:
-                quantity = random.randint(
-                    1, 5 % (self.game.player.stockpile[item]["quantity"] + 1)
-                )
-                self.game.player.stockpile[item]["quantity"] -= quantity
-                total_item_price = quantity * self.game.player.stockpile[item]["price"]
-                total_amount += total_item_price
+            item_desirability = self.is_desirable(
+                self.game.player.stockpile[item]["price"],
+                self.market_stockpile[item]["price"],
+            )
+            if item_desirability:
+                try:
+                    quantity = random.randint(
+                        1, 5 % (self.game.player.stockpile[item]["quantity"] + 1)
+                    )
+                    self.game.player.stockpile[item]["quantity"] -= quantity
+                    total_item_price = (
+                        quantity * self.game.player.stockpile[item]["price"]
+                    )
+                    total_amount += total_item_price
 
-                summary = "Customers bought {} {}, worth \u20B1 {}".format(
-                    quantity, item, total_item_price
-                )
-                print(summary)
-            except ValueError or ZeroDivisionError:
-                continue
+                    summary = "Customers bought {} {}, worth \u20B1 {}".format(
+                        quantity, item, total_item_price
+                    )
+                    print(summary)
+                except ValueError or ZeroDivisionError:
+                    continue
 
-        self.game.player.balance += total_amount
+                self.game.player.balance += total_amount
+
+    def is_desirable(self, price, srp):
+        if price < srp:
+            return True
+        elif price <= srp + 10:
+            return random.choice([True, False])
+        else:
+            return False

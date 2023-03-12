@@ -2,14 +2,17 @@ from states.state import State
 from states.game_world import GameWorld
 from util import *
 from decorators import *
+from beautifultable import BeautifulTable
 
 
 class MainMenu(State):
     def __init__(self, game):
         super().__init__(game)
+        self.actions = "[1] New Game\n[2] Load Save\n[3] Delete Save\n[0] Exit"
 
     def update(self):
-        print("[1] New Game\n[2] Load Save\n[3] Delete Save\n[0] Exit")
+        self.game.update_interface(self.create_menutable(), options=self.actions)
+        self.game.print_interface()
         choice = self.game.get_input()
         # ======================== Play Game ======================== #
         if choice == "1":
@@ -49,6 +52,12 @@ class MainMenu(State):
         elif choice == "0":
             self.game.playing = False
             self.game.running = False
+
+    def create_menutable(self):
+        table = BeautifulTable()
+        table.rows.append(["MAIN MENU"])
+        table = self.game.format_table(table)
+        return table
 
     @alpha_only
     def get_username(self):

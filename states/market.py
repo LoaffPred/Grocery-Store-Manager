@@ -2,18 +2,25 @@ from states.state import State
 from util import *
 import random
 from decorators import *
+from beautifultable import BeautifulTable
 
 
 class Market(State):
-    def __init__(self, game):
+    def __init__(self, game_world, game, worldtable):
         super().__init__(game)
+        self.game_world = game_world
         self.stockpile = read_json("baseStockpile.json")
         self.inflation()
         self.random_supply()
+        self.create_markettable()
 
     def update(self):
-        self.render()
-        print("[1] Buy From Market\n[0] Go Back")
+        self.update_markettable()
+        self.game_world.update_worldtable()
+        self.game.update_interface(
+            self.game_world.worldtable, options="[1] Buy From Market\n[0] Go Back"
+        )
+        self.game.print_interface()
         choice = self.game.get_input()
         if choice == "1":
             self.sell()
@@ -23,20 +30,26 @@ class Market(State):
         else:
             print("Invalid input...")
 
-    def render(self):
-        print("Welcome to the Market!")
-        table = self.add_market_table()
-        print(table)
+    def create_markettable(self):
+        table = BeautifulTable()
+        table.columns.header = ["Item", "Quantity", "Price"]
+        for k, v in self.stockpile.items():
+            table.rows.append([k, v["quantity"], "\u20B1 " + str(v["price"])])
 
-    def add_market_table(self):
-        basetable = self.game.get_basetable()
-        market_table = self.game.to_table(self.stockpile)
-        playertable = self.game.to_table(self.game.player.stockpile)
+        table = self.game.format_table(table)
+        table.columns.header.alignment = BeautifulTable.ALIGN_CENTER
+        table.columns.alignment["Price"] = BeautifulTable.ALIGN_LEFT
 
-        basetable.rows[0][0] = playertable
-        basetable.rows[0][1] = market_table
+        return table
 
-        return basetable
+    def update_markettable(self):
+        try:
+            del self.game_world.worldtable.columns["MARKET"]
+        except:
+            print("Column does not exist.")
+        self.game_world.worldtable.columns.append(
+            [self.create_markettable()], header="MARKET"
+        )
 
     def sell(self):
         print("Enter produce name to buy: [Case-sensitive]")
