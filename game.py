@@ -23,8 +23,7 @@ class Game:
         while self.playing:
             self.update()
 
-    def update(self):2
-    
+    def update(self):
         self.state_stack[-1].update()
 
     def print_interface(self):

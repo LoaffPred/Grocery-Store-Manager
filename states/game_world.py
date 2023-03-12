@@ -41,7 +41,6 @@ class GameWorld(State):
             new_state.enter_state()
         # ======================== Save and Exit ======================== #
         elif choice == "0":
-            # self.game.interface.rows[0][0] = ""
             self.game.player.save_player_data()
             self.exit_state()
 
@@ -51,8 +50,6 @@ class GameWorld(State):
         new_table = table.columns[:1]
         print(new_table)
         print("Your balance: \u20B1", self.game.player.balance)
-
-    ######################################
 
     def create_worldtable(self):
         table = BeautifulTable()
@@ -76,8 +73,6 @@ class GameWorld(State):
 
     def update_worldtable(self):
         self.worldtable.rows[0][0] = self.create_playertable(self.game.player.stockpile)
-
-    #######################################
 
     def buy(self):
         # TODO customer buys depending on the price, have a comparison with SRP, lower the better

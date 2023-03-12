@@ -1,7 +1,7 @@
 {
     "Pred": {
         "Balance": 10000,
-        "DaysPlayed": 0,
+        "DaysPlayed": 2,
         "Stockpile": {
             "Orange": {
                 "quantity": 10,

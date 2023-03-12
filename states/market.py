@@ -13,6 +13,7 @@ class Market(State):
         self.inflation()
         self.random_supply()
         self.create_markettable()
+        self.game_world.worldtable.columns.append([""], header="MARKET")
 
     def update(self):
         self.update_markettable()
@@ -25,6 +26,7 @@ class Market(State):
         if choice == "1":
             self.sell()
         elif choice == "0":
+            del self.game_world.worldtable.columns["MARKET"]
             self.game.player.days_played += 1
             self.exit_state()
         else:
@@ -43,13 +45,7 @@ class Market(State):
         return table
 
     def update_markettable(self):
-        try:
-            del self.game_world.worldtable.columns["MARKET"]
-        except:
-            print("Column does not exist.")
-        self.game_world.worldtable.columns.append(
-            [self.create_markettable()], header="MARKET"
-        )
+        self.game_world.worldtable.columns["MARKET"] = [self.create_markettable()]
 
     def sell(self):
         print("Enter produce name to buy: [Case-sensitive]")
