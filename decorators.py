@@ -16,7 +16,11 @@
         @limit_input -> returns user input, else None
         - Allows only an input to be of a specific range
 
-        @transition_pause -> 
+        @transition_pause -> returns None
+        - Attempts to control and limit movement of outputs
+
+        @print_header -> returns None
+        - Prints a header before executing the function
 
 """
 
@@ -50,9 +54,11 @@ def num_only(func):
     def inner(self):
         a = func(self)
         try:
-            return float(a)
-        except Exception as e:
-            print(e)
+            if a.isdigit():
+                return int(a)
+            else:
+                return float(a)
+        except ValueError:
             print("Invalid input. Only numbers are allowed [0-9].")
 
     return inner
@@ -78,3 +84,17 @@ def transition_pause(func):
         input("Press [enter] to proceed...")
 
     return inner
+
+
+def print_header(header):
+    def outer(func):
+        def inner(self):
+            print("====================>>> ", end="")
+            for l in header:
+                print(l + " ", end="")
+            print("<<<====================")
+            func(self)
+
+        return inner
+
+    return outer

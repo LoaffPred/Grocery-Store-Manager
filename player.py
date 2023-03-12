@@ -7,8 +7,6 @@ class Player:
     def __init__(self):
         self.name = ""
         self.balance = 10000
-        # decorator idea: verify if stockpile is dictionary,
-        # if filename ends with .json
         self.stockpile = {}
         self.days_played = 0
 

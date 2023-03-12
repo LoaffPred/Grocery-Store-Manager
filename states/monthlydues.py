@@ -1,5 +1,6 @@
 from states.state import State
 from states.gameover import GameOver
+from decorators import *
 
 
 class MonthlyDue(State):
@@ -7,6 +8,8 @@ class MonthlyDue(State):
         super().__init__(game)
         self.bill = 10000
 
+    @transition_pause
+    @print_header("MONTHLY DUES")
     def update(self):
         self.increase_bill()
         self.render()
@@ -16,7 +19,7 @@ class MonthlyDue(State):
             pass
         else:
             self.game.player.balance -= self.bill
-            print("Monthly bills paid.")
+            print("Monthly bills paid, for now...")
 
             self.exit_state()
 
