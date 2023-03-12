@@ -1,15 +1,13 @@
 from states.main_menu import MainMenu
-import json  # load game properties
 from os import path, getcwd
 from util import *
 from player import Player
 from beautifultable import BeautifulTable
 from pyfiglet import Figlet
+from decorators import *
 
 
 # TODO implement "Press [enter] to proceed..."
-# TODO decorator idea: yes/no confirmation for prompts/questions i.e., Are you sure? [y/n]
-# TODO decorator idea: input validator, parameters(*inputs, type?)
 
 
 class Game:
@@ -55,22 +53,40 @@ class Game:
 
         return table
 
+    @input_validator("1", "2", "3", "4", "5", "6", "0", "cancel")
+    def get_input(self):
+        return input(">>> ")
+
 
 def setup():
-    if not path.exists(path.join(getcwd(), "baseStockpile.json")):
-        print("[baseStockpile.json] file not found. Can't start game.")
-        raise SystemExit()
+    base_stockpile = {
+        "Orange": {"quantity": 10, "price": 57.50},
+        "Apple": {"quantity": 10, "price": 44},
+        "Banana": {"quantity": 10, "price": 175},
+        "Grape": {"quantity": 10, "price": 395},
+        "Mango": {"quantity": 10, "price": 79.50},
+        "Cabbage": {"quantity": 10, "price": 148},
+        "Carrot": {"quantity": 10, "price": 95},
+        "Eggplant": {"quantity": 10, "price": 109},
+        "Broccoli": {"quantity": 10, "price": 145},
+        "Sayote": {"quantity": 10, "price": 49},
+    }
+    savefiles = {}
 
-    if not path.exists(path.join(getcwd(), "gameData.json")):
-        data = {"HasSavedGame": False}
-        write_json(path.join(getcwd(), "gameData.json"), data)
+    def check_existence(filename, data):
+        if not path.exists(path.join(getcwd(), filename)):
+            print("[{}] file not found. Creating new file.".format(filename))
+            write_json(path.join(getcwd(), filename), data)
+
+    check_existence("baseStockpile.json", base_stockpile)
+    check_existence("savefiles.json", savefiles)
 
 
 if __name__ == "__main__":
     standard = Figlet()
     print(standard.renderText("Grocery Manager Simulator"))
     input("Press [enter] to proceed...")
-    # setup()
+    setup()
     game = Game()
     while game.running:
         game.game_loop()

@@ -1,6 +1,7 @@
 from states.state import State
 from util import *
 import random
+from decorators import *
 
 
 class Market(State):
@@ -13,10 +14,10 @@ class Market(State):
     def update(self):
         self.render()
         print("[1] Buy From Market\n[0] Go Back")
-        a = input(">>> ")
-        if a == "1":
+        choice = self.game.get_input()
+        if choice == "1":
             self.sell()
-        elif a == "0":
+        elif choice == "0":
             self.game.player.days_played += 1
             self.exit_state()
         else:
@@ -39,23 +40,27 @@ class Market(State):
 
     def sell(self):
         print("Enter produce name to buy: [Case-sensitive]")
-        a = input(">>> ")
-        if a in self.stockpile.keys():
-            print("Enter quantity of {} to buy:".format(a))
+        choice = input(">>> ")
+        if choice in self.stockpile.keys():
+            print("Enter quantity of {} to buy:".format(choice))
             try:
-                b = int(input(">>> "))
+                num = int(input(">>> "))
             except:
                 print("Numbers only [0-9]...")
                 print("Going back to previous menu...")
             else:
-                total_amount = b * self.stockpile[a]["price"]
-                if b > self.stockpile[a]["quantity"]:
-                    print("Buy less than or equal to what the market has...".format(a))
+                total_amount = num * self.stockpile[choice]["price"]
+                if num > self.stockpile[choice]["quantity"]:
+                    print(
+                        "Buy less than or equal to what the market has...".format(
+                            choice
+                        )
+                    )
                 elif self.game.player.balance < total_amount:
                     print("You don't have enough money to buy that...")
                 else:
-                    self.game.player.stockpile[a]["quantity"] += b
-                    self.stockpile[a]["quantity"] -= b
+                    self.game.player.stockpile[choice]["quantity"] += num
+                    self.stockpile[choice]["quantity"] -= num
                     self.game.player.balance -= total_amount
                     print("Purchase successful.")
 

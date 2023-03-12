@@ -1,6 +1,7 @@
 from states.state import State
 from states.game_world import GameWorld
 from util import *
+from decorators import *
 
 
 class MainMenu(State):
@@ -8,18 +9,17 @@ class MainMenu(State):
         super().__init__(game)
 
     def update(self):
-        
         print("[1] New Game\n[2] Load Save\n[3] Delete Save\n[0] Exit")
-        a = input(">>> ")
-        # Play Game
-        if a == "1":
+        choice = self.game.get_input()
+        # ======================== Play Game ======================== #
+        if choice == "1":
             username = self.get_username()
             if username == "cancel":
                 return
             new_state = GameWorld(self.game, username, self.new_game_setup())
             new_state.enter_state()
-        # Load Save
-        elif a == "2":
+        # ======================== Load Save ======================== #
+        elif choice == "2":
             print("Saved Games:")
             for save in read_json("savefiles.json").keys():
                 print(">", save)
@@ -31,7 +31,8 @@ class MainMenu(State):
                 new_state.enter_state()
             except:
                 print("That save file does not exist...")
-        elif a == "3":
+        # ======================== Delete Save File ======================== #
+        elif choice == "3":
             savefiles = read_json("savefiles.json")
             print("Saved Games:")
             for save in savefiles.keys():
@@ -44,18 +45,16 @@ class MainMenu(State):
                 print("Save successfuly deleted.")
             except:
                 print("That save file does not exist...")
-        # Exit
-        elif a == "0":
+        # ======================== Exit ======================== #
+        elif choice == "0":
             self.game.playing = False
             self.game.running = False
-        else:
-            print("Invalid input...")
 
+    @alpha_only
     def get_username(self):
-        # TODO decorator: input validation
         print("Enter your name, enter [cancel] to go back:")
-        a = input(">>> ")
-        return a
+        name = input(">>> ")
+        return name
 
     def new_game_setup(self):
         balance = 10000

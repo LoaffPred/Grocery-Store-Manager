@@ -3,6 +3,7 @@ from states.price_change import PriceChange
 from states.market import Market
 from states.monthlydues import MonthlyDue
 import random
+from decorators import *
 
 
 class GameWorld(State):
@@ -15,30 +16,27 @@ class GameWorld(State):
         print("Welcome to the game world!")
         self.render()
         print("[1] Simulate\n[2] Restock\n[3] Change Prices\n[0] Save and Exit")
-        a = input(">>> ")
-        # Simulate
-        if a == "1":
+        choice = self.game.get_input()
+        # ======================== Simulate ======================== #
+        if choice == "1":
             print(">>> Simulate <<<")
-            self.simulate()
+            self.buy()
             self.game.player.days_played += 1
             if self.game.player.days_played % 28 == 0:
                 new_state = MonthlyDue(self.game)
                 new_state.enter_state()
-        # Restock
-        elif a == "2":
+        # ========================  Restock ======================== #
+        elif choice == "2":
             new_state = Market(self.game)
             new_state.enter_state()
-        # Change Prices
-        elif a == "3":
+        # ======================== Change Prices ======================== #
+        elif choice == "3":
             new_state = PriceChange(self.game)
             new_state.enter_state()
-        # Save and Exit
-        elif a == "0":
+        # ======================== Save and Exit ======================== #
+        elif choice == "0":
             self.game.player.save_player_data()
             self.exit_state()
-
-        else:
-            print("Invalid input...")
 
     def render(self):
         print("Day", self.game.player.days_played)
@@ -46,9 +44,6 @@ class GameWorld(State):
         new_table = table.columns[:1]
         print(new_table)
         print("Your balance: \u20B1", self.game.player.balance)
-
-    def simulate(self):
-        self.buy()
 
     def add_playertable(self):
         basetable = self.game.get_basetable()

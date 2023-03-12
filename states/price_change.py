@@ -1,4 +1,5 @@
 from states.state import State
+from decorators import *
 
 # TODO decorator: header
 # TODO decorator: input validation
@@ -10,15 +11,12 @@ class PriceChange(State):
 
     def update(self):
         print("Price Change Menu")
-        # print(self.game.get_table???????(self.game.player.stockpile))
         print("[1] Change Item Price\n[0] Go Back")
-        a = input(">>> ")
-        if a == "1":
+        choice = self.game.get_input()
+        if choice == "1":
             self.change_price()
-        elif a == "0":
+        elif choice == "0":
             self.exit_state()
-        else:
-            print("Invalid input...")
 
     def render(self):
         pass
@@ -35,23 +33,22 @@ class PriceChange(State):
         item = input(">>> ")
         if item in self.game.player.stockpile:
             while True:
-                try:
-                    text = (
-                        "Enter new price for [{}]. Current price is \u20B1 {}".format(
-                            item, self.game.player.stockpile[item]["price"]
-                        )
-                    )
-                    print(text)
-
-                    new_price = float(input(">>> \u20B1 "))
+                text = "Enter new price for [{}]. Current price is \u20B1 {}".format(
+                    item, self.game.player.stockpile[item]["price"]
+                )
+                print(text)
+                new_price = self.get_new_price()
+                if new_price:
                     self.game.player.stockpile[item]["price"] = new_price
                     print("Change price successful...")
-                    return
-
-                except ValueError:
-                    print("Invalid input. Numbers only [0-9]...")
-
+                return
         else:
             print(
                 "That item does not exist in your stockpile, returning to previous menu..."
             )
+
+    @limit_input(0, 500)
+    @num_only
+    def get_new_price(self):
+        new_price = input(">>> \u20B1 ")
+        return new_price
