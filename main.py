@@ -60,6 +60,7 @@ class Game:
         """Changes the format of tables to a single uniform style"""
         table.set_style(BeautifulTable.STYLE_BOX)
         table.border.left = ""
+        
         table.border.right = ""
         table.border.top = ""
         table.border.bottom = ""

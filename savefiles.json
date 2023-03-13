@@ -1,47 +1,47 @@
 {
-    "GenericName": {
-        "Balance": 10000,
-        "DaysPlayed": 0,
+    "aq": {
+        "Balance": 29347,
+        "DaysPlayed": 22,
         "Stockpile": {
             "Orange": {
-                "quantity": 10,
-                "price": 57.5
+                "quantity": 6,
+                "price": 60
             },
             "Apple": {
-                "quantity": 10,
-                "price": 44
+                "quantity": 2,
+                "price": 50
             },
             "Banana": {
-                "quantity": 10,
-                "price": 175
+                "quantity": 4,
+                "price": 180
             },
             "Grape": {
-                "quantity": 10,
+                "quantity": 4,
                 "price": 395
             },
             "Mango": {
-                "quantity": 10,
-                "price": 79.5
+                "quantity": 4,
+                "price": 82
             },
             "Cabbage": {
-                "quantity": 10,
-                "price": 148
+                "quantity": 3,
+                "price": 152
             },
             "Carrot": {
-                "quantity": 10,
-                "price": 95
+                "quantity": 7,
+                "price": 100
             },
             "Eggplant": {
-                "quantity": 10,
-                "price": 109
+                "quantity": 6,
+                "price": 113
             },
             "Broccoli": {
-                "quantity": 10,
-                "price": 145
+                "quantity": 4,
+                "price": 150
             },
             "Sayote": {
-                "quantity": 10,
-                "price": 49
+                "quantity": 3,
+                "price": 55
             }
         }
     }
