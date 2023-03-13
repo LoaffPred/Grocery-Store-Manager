@@ -1,0 +1,48 @@
+{
+    "aq": {
+        "Balance": 29347,
+        "DaysPlayed": 22,
+        "Stockpile": {
+            "Orange": {
+                "quantity": 6,
+                "price": 60
+            },
+            "Apple": {
+                "quantity": 2,
+                "price": 50
+            },
+            "Banana": {
+                "quantity": 4,
+                "price": 180
+            },
+            "Grape": {
+                "quantity": 4,
+                "price": 395
+            },
+            "Mango": {
+                "quantity": 4,
+                "price": 82
+            },
+            "Cabbage": {
+                "quantity": 3,
+                "price": 152
+            },
+            "Carrot": {
+                "quantity": 7,
+                "price": 100
+            },
+            "Eggplant": {
+                "quantity": 6,
+                "price": 113
+            },
+            "Broccoli": {
+                "quantity": 4,
+                "price": 150
+            },
+            "Sayote": {
+                "quantity": 3,
+                "price": 55
+            }
+        }
+    }
+}

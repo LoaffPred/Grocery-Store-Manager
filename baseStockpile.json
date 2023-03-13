@@ -1,7 +1,7 @@
 {
     "Orange": {
         "quantity": 10,
-        "price": 57.50
+        "price": 57.5
     },
     "Apple": {
         "quantity": 10,
@@ -17,7 +17,7 @@
     },
     "Mango": {
         "quantity": 10,
-        "price": 79.50
+        "price": 79.5
     },
     "Cabbage": {
         "quantity": 10,

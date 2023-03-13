@@ -1,9 +1,0 @@
-implement the following:
-    > tutorial
-    > random buying of items /
-    > change item prices /
-    > buying supplies
-    > possibly rotting of items
-    > monthly paying of bills
-    > random market item prices
-    > law of supply and demand formulas
